@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import './App.css';
 import SmurfForm from './components/SmurfForm';
+import SingleSmurf from './components/SingleSmurf'
 import Smurfs from './components/Smurfs';
 import smurfLogo from './assets/smurf-logo.png'
 
@@ -112,8 +113,41 @@ class App extends Component {
           <NavLink to="/smurf-form">Add Smurf</NavLink>
           </div>
         </NavBar>
-        <Route path="/smurf-form" render={props => <SmurfForm handleInputChange={this.handleInputChange} isUpdating={this.state.isUpdating} updateSmurf={this.updateSmurf} addSmurf={this.addSmurf} name={this.state.name} age={this.state.age} height={this.state.height} {...props} />}/>
-        <Route exact path="/" render={props => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} initiateUpdate={this.initiateUpdate} {...props}/>}/>
+        <Route 
+          path="/smurf-form" 
+          render={props => 
+            <SmurfForm 
+              handleInputChange={this.handleInputChange} 
+              isUpdating={this.state.isUpdating} 
+              updateSmurf={this.updateSmurf} 
+              addSmurf={this.addSmurf} 
+              name={this.state.name} 
+              age={this.state.age} 
+              height={this.state.height} 
+              {...props} 
+            />}
+        />
+        <Route 
+          exact 
+          path="/" 
+          render={props => 
+            <Smurfs 
+              smurfs={this.state.smurfs} 
+              deleteSmurf={this.deleteSmurf} 
+              initiateUpdate={this.initiateUpdate} 
+              {...props}
+            />}
+        />
+        <Route 
+          path="/smurf/:id" 
+          render={props => 
+            <SingleSmurf 
+              {...props} 
+              smurfs={this.state.smurfs}
+              deleteSmurf={this.deleteSmurf} 
+              initiateUpdate={this.initiateUpdate} 
+            />}
+        />
       </div>
     );
   }
