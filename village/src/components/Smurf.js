@@ -13,7 +13,18 @@ const SmurfCard = styled.div`
   margin: 10px;
   button{
     width: 100px;
-    margin: 0 auto;
+    margin: 4px auto;
+    padding: 9px 0;
+    color: white;
+    border: 1px solid black;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    background-color: #0D4397;
+    &:hover{
+      background-color: black;
+      transition: 0.4s;
+      cursor: pointer
+    }
   }
 `
 

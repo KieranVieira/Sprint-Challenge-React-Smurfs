@@ -22,12 +22,17 @@ const NavBar = styled.div`
     color: white;
     background-color: #0D4397;
     box-shadow: black 4px 4px 15px;
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin: 0px 15px;
     margin-top: 15px;
-    padding: 5px 15px;
+    padding: 9px 15px;
     border: 1px solid white;
     border-radius: 5px;
+    &:hover{
+      background-color: black;
+      transition: 0.4s;
+      cursor: pointer
+    }
   }
   img{
     width: 150px;
