@@ -32,9 +32,12 @@ const NavBar = styled.div`
   img{
     width: 150px;
     height: auto;
-    background-color: white;
+
     padding: 5px;
-    border-radius: 50px;
+   
+  }
+  .active{
+    background-color: black;
   }
 `
 
@@ -80,7 +83,8 @@ class App extends Component {
     e.preventDefault()
     axios.delete(`http://localhost:3333/smurfs/${id}`)
         .then(res => this.setState({ smurfs: res.data }))
-        .then(err => console.log('Delete failed', err))
+        .then(err => console.log('Delete failed', err));
+    this.props.history.push('/')
   }
 
   initiateUpdate = (e, id, name, height, age) => {
@@ -98,7 +102,7 @@ class App extends Component {
   updateSmurf = (e) => {
     e.preventDefault();
     axios.put(`http://localhost:3333/smurfs/${this.state.updatingId}`, {name: this.state.name, age: this.state.age, height: this.state.height})
-      .then(res => this.setState({ smurfs: res.data }))
+      .then(res => this.setState({ smurfs: res.data, isUpdating: false, name:'', age:'', height:'' }))
       .catch(err => console.log(err));
     this.props.history.push('/')
   }
@@ -110,7 +114,7 @@ class App extends Component {
           <img src={smurfLogo} alt=''/>
           <div>
           <NavLink exact to="/">Home</NavLink>
-          <NavLink to="/smurf-form">Add Smurf</NavLink>
+          <NavLink to="/smurf-form">{this.state.isUpdating ? 'Update Smurf' : 'Add Smurf'}</NavLink>
           </div>
         </NavBar>
         <Route 
