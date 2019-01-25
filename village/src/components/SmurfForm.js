@@ -4,57 +4,35 @@ import axios from 'axios'
 class SmurfForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      age: '',
-      height: ''
-    };
+    this.state = {};
   }
-
-  addSmurf = e => {
-    e.preventDefault();
-    // add code to create the smurf using the api
-    axios.post('http://localhost:3333/smurfs', {name: this.state.name, age: this.state.age, height: this.state.height})
-
-    this.setState({
-      name: '',
-      age: '',
-      height: ''
-    });
-
-    this.props.history.push('/')
-  }
-
-  handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
 
   render() {
     return (
       <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
+        <form onSubmit={this.props.isUpdating ? this.props.updateSmurf : this.props.addSmurf}>
           <input
-            onChange={this.handleInputChange}
+            onChange={this.props.handleInputChange}
             placeholder="name"
-            value={this.state.name}
+            value={this.props.name}
             name="name"
             required
           />
           <input
-            onChange={this.handleInputChange}
+            onChange={this.props.handleInputChange}
             placeholder="age"
-            value={this.state.age}
+            value={this.props.age}
             name="age"
             required
           />
           <input
-            onChange={this.handleInputChange}
+            onChange={this.props.handleInputChange}
             placeholder="height"
-            value={this.state.height}
+            value={this.props.height}
             name="height"
             required
           />
-          <button type="submit">Add to the village</button>
+          <button type="submit">{this.props.isUpdating ? 'Update Smurf' : 'Add to the village'}</button>
         </form>
       </div>
     );

@@ -18,7 +18,6 @@ class Smurfs extends Component {
   render() {
     return (
       <SmurfContainer>
-        <ul>
           {this.props.smurfs.map(smurf => {
             return (
               <Smurf
@@ -28,10 +27,10 @@ class Smurfs extends Component {
                 height={smurf.height}
                 key={smurf.id}
                 deleteSmurf={this.props.deleteSmurf}
+                initiateUpdate={this.props.initiateUpdate}
               />
             );
           })}
-        </ul>
       </SmurfContainer>
     );
   }

@@ -42,11 +42,13 @@ class App extends Component {
     super(props);
     this.state = {
       smurfs: [],
+      name: '',
+      age: '',
+      height: '',
+      isUpdating: false,
+      updatingId: '',
     };
   }
-  // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
-  // Notice what your map function is looping over and returning inside of Smurfs.
-  // You'll need to make sure you have the right properties on state and pass them down to props.
 
   componentDidMount(){
     axios.get('http://localhost:3333/smurfs')
@@ -54,11 +56,50 @@ class App extends Component {
       .then(err => console.log('Fetch failed', err))
   }
 
+  addSmurf = e => {
+    e.preventDefault();
+    axios.post('http://localhost:3333/smurfs', {name: this.state.name, age: this.state.age, height: this.state.height})
+      .then(res => this.setState({ smurfs: res.data }))
+      .catch(err => console.log(err))
+
+    this.setState({
+      name: '',
+      age: '',
+      height: ''
+    });
+
+    this.props.history.push('/')
+  }
+
+  handleInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   deleteSmurf = (e,id) => {
     e.preventDefault()
     axios.delete(`http://localhost:3333/smurfs/${id}`)
         .then(res => this.setState({ smurfs: res.data }))
         .then(err => console.log('Delete failed', err))
+  }
+
+  initiateUpdate = (e, id, name, height, age) => {
+    e.preventDefault();
+    this.setState({
+      name,
+      height,
+      age,
+      isUpdating: true,
+      updatingId: id
+    })
+    this.props.history.push('/smurf-form')
+  }
+
+  updateSmurf = (e) => {
+    e.preventDefault();
+    axios.put(`http://localhost:3333/smurfs/${this.state.updatingId}`, {name: this.state.name, age: this.state.age, height: this.state.height})
+      .then(res => this.setState({ smurfs: res.data }))
+      .catch(err => console.log(err));
+    this.props.history.push('/')
   }
 
   render() {
@@ -71,8 +112,8 @@ class App extends Component {
           <NavLink to="/smurf-form">Add Smurf</NavLink>
           </div>
         </NavBar>
-        <Route path="/smurf-form" render={props => <SmurfForm {...props} />}/>
-        <Route exact path="/" render={props => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} {...props}/>}/>
+        <Route path="/smurf-form" render={props => <SmurfForm handleInputChange={this.handleInputChange} isUpdating={this.state.isUpdating} updateSmurf={this.updateSmurf} addSmurf={this.addSmurf} name={this.state.name} age={this.state.age} height={this.state.height} {...props} />}/>
+        <Route exact path="/" render={props => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} initiateUpdate={this.initiateUpdate} {...props}/>}/>
       </div>
     );
   }
