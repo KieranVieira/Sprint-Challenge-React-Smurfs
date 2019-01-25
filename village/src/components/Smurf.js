@@ -9,6 +9,11 @@ const SmurfCard = styled.div`
   background-color: white;
   border-radius: 500px;
   border: 1px solid black;
+  padding: 15px;
+  button{
+    width: 100px;
+    margin: 0 auto;
+  }
 `
 
 const Smurf = props => {
@@ -17,6 +22,7 @@ const Smurf = props => {
       <h3>{props.name}</h3>
       <strong>{props.height} tall</strong>
       <p>{props.age} smurf years old</p>
+      <button onClick={e => props.deleteSmurf(e, props.id)}>Delete</button>
     </SmurfCard>
   );
 };

@@ -54,6 +54,13 @@ class App extends Component {
       .then(err => console.log('Fetch failed', err))
   }
 
+  deleteSmurf = (e,id) => {
+    e.preventDefault()
+    axios.delete(`http://localhost:3333/smurfs/${id}`)
+        .then(res => this.setState({ smurfs: res.data }))
+        .then(err => console.log('Delete failed', err))
+  }
+
   render() {
     return (
       <div className="App">
@@ -65,7 +72,7 @@ class App extends Component {
           </div>
         </NavBar>
         <Route path="/smurf-form" render={props => <SmurfForm {...props} />}/>
-        <Route exact path="/" render={props => <Smurfs smurfs={this.state.smurfs} {...props}/>}/>
+        <Route exact path="/" render={props => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} {...props}/>}/>
       </div>
     );
   }
