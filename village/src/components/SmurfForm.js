@@ -1,55 +1,84 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
+const StyledSmurfForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+  h1{
+    text-align: center;
+    font-size: 2rem;
+    background-color: white;
+    border: 1px solid black;
+    width: 65%;
+    padding: 5px 0;
+    border-radius: 5px;
+    margin: 10px auto;
+  }
+  input{
+    margin: 4px 0;
+    padding: 7px 0;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 1.7rem;
+    color: black;
+    text-align: center;
+    border: 1px solid black;
+    &::placeholder{
+      text-align: center;
+      color: black;
+    }
+  }
+  button{
+    margin: 4px 0;
+    padding: 9px 0;
+    color: white;
+    border: 1px solid white;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    background-color: #0D4397;
+    &:hover{
+      background-color: black;
+      transition: 0.4s;
+      cursor: pointer
+    }
+  }
+`;
 
 class SmurfForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      age: '',
-      height: ''
-    };
+    this.state = {};
   }
-
-  addSmurf = event => {
-    event.preventDefault();
-    // add code to create the smurf using the api
-
-    this.setState({
-      name: '',
-      age: '',
-      height: ''
-    });
-  }
-
-  handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
 
   render() {
     return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
-          <input
-            onChange={this.handleInputChange}
-            placeholder="name"
-            value={this.state.name}
-            name="name"
-          />
-          <input
-            onChange={this.handleInputChange}
-            placeholder="age"
-            value={this.state.age}
-            name="age"
-          />
-          <input
-            onChange={this.handleInputChange}
-            placeholder="height"
-            value={this.state.height}
-            name="height"
-          />
-          <button type="submit">Add to the village</button>
-        </form>
-      </div>
+      <StyledSmurfForm onSubmit={this.props.isUpdating ? this.props.updateSmurf : this.props.addSmurf}>
+        <h1>{this.props.isUpdating ? 'Update the Smurf' : 'Add a Smurf'}</h1>
+        <input
+          onChange={this.props.handleInputChange}
+          placeholder="name"
+          value={this.props.name}
+          name="name"
+          required
+        />
+        <input
+          onChange={this.props.handleInputChange}
+          placeholder="age"
+          value={this.props.age}
+          name="age"
+          required
+        />
+        <input
+          onChange={this.props.handleInputChange}
+          placeholder="height"
+          value={this.props.height}
+          name="height"
+          required
+        />
+        <button type="submit">{this.props.isUpdating ? 'Update Smurf' : 'Add to the village'}</button>
+      </StyledSmurfForm>
     );
   }
 }
